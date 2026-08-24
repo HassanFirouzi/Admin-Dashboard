@@ -19,11 +19,14 @@ const Page: FC = () => {
       </section>
 
       <section className="grid lg:grid-cols-14 gap-5">
-        <div className="lg:col-span-9 size-full overflow-hidden">
+        {/* below lg the grid row has no explicit height, so these need a
+        fixed height of their own — size-full's height:100% has nothing to
+        resolve against there and collapses to 0, hiding the charts */}
+        <div className="lg:col-span-9 w-full h-95 lg:h-full overflow-hidden">
           <SalesChart />
         </div>
 
-        <div className="lg:col-span-5 size-full overflow-hidden">
+        <div className="lg:col-span-5 w-full h-95 lg:h-full overflow-hidden">
           <CategoryChart />
         </div>
       </section>

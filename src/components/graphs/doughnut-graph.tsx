@@ -24,7 +24,10 @@ const options = {
     },
   },
   responsive: true,
-  cutout: 85,
+  // percentage, not a fixed px value — a fixed cutout can exceed the
+  // chart's own outer radius on narrow (mobile) canvases, making the
+  // ring's band width collapse to zero so nothing draws
+  cutout: "65%",
   maintainAspectRatio: true,
 } as const;
 
