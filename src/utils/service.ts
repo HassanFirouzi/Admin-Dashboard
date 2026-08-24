@@ -1,7 +1,17 @@
 import { Order, Product, User } from "@/types";
 
-// api url
-const BASE_URL = "http://localhost:5001";
+// api url — served by this app's own /api routes (see src/app/api), backed
+// by db.json, so the deployed site doesn't depend on a separate json-server
+// process being reachable. Relative URLs resolve fine in the browser, but
+// Node's fetch (used when these run in Server Components/Server Actions)
+// requires an absolute one — VERCEL_URL gives the deployment's own live
+// origin at request time.
+const BASE_URL =
+  typeof window !== "undefined"
+    ? "/api"
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api`
+      : "http://localhost:3000/api";
 
 // bütün siparişleri getir
 export const getOrders = async (): Promise<Order[]> => {

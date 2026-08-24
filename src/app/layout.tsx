@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Every page here reads live data through this app's own /api routes
+// (see src/utils/service.ts) rather than being static/marketing content —
+// forcing dynamic rendering keeps Next.js from trying to prerender those
+// fetches at build time, before the deployment is actually serving traffic.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Admin Paneli",
   description: "Yönetim arayüzü",

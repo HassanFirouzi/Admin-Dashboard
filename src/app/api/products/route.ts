@@ -1,0 +1,14 @@
+import { NextResponse } from "next/server";
+import store, { nextId } from "@/lib/mockDb";
+import { Product } from "@/types";
+
+export async function GET() {
+  return NextResponse.json(store.products);
+}
+
+export async function POST(request: Request) {
+  const body = (await request.json()) as Omit<Product, "id">;
+  const product: Product = { ...body, id: nextId(store.products) };
+  store.products.push(product);
+  return NextResponse.json(product);
+}
