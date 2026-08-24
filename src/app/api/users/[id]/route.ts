@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import store from "@/lib/mockDb";
+import { readOnlyResponse } from "@/lib/demoGuard";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -11,6 +12,9 @@ export async function GET(_request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  const blocked = readOnlyResponse();
+  if (blocked) return blocked;
+
   const { id } = await params;
   const index = store.users.findIndex((u) => u.id === id);
   if (index === -1) return NextResponse.json({ error: "Not found" }, { status: 404 });

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import store from "@/lib/mockDb";
+import { readOnlyResponse } from "@/lib/demoGuard";
 import { Product } from "@/types";
 
 type Params = { params: Promise<{ id: string }> };
@@ -12,6 +13,9 @@ export async function GET(_request: Request, { params }: Params) {
 }
 
 export async function PUT(request: Request, { params }: Params) {
+  const blocked = readOnlyResponse();
+  if (blocked) return blocked;
+
   const { id } = await params;
   const body = (await request.json()) as Omit<Product, "id">;
   const index = store.products.findIndex((p) => p.id === id);
@@ -21,6 +25,9 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  const blocked = readOnlyResponse();
+  if (blocked) return blocked;
+
   const { id } = await params;
   const index = store.products.findIndex((p) => p.id === id);
   if (index === -1) return NextResponse.json({ error: "Not found" }, { status: 404 });

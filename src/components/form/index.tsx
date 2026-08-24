@@ -2,6 +2,7 @@ import { categories, inputs } from "@/utils/constants";
 import Field from "./field";
 import ImagePreview from "./image-preview";
 import Link from "next/link";
+import SaveButton from "./save-button";
 import { handleProductForm } from "@/utils/action";
 import { Product } from "@/types";
 import { FC } from "react";
@@ -84,12 +85,7 @@ const ProductForm: FC<Props> = ({ product }) => {
           İptal
         </Link>
 
-        <button
-          type="submit"
-          className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow-md transition"
-        >
-          Kaydet
-        </button>
+        <SaveButton />
       </div>
     </form>
   );

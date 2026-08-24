@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteProduct } from "@/utils/service";
+import { isDemoReadOnly, DEMO_READONLY_MESSAGE } from "@/utils/demo";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { toast } from "react-toastify";
@@ -14,6 +15,10 @@ const DeleteButton: FC<Props> = ({ id }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
+    if (isDemoReadOnly) {
+      toast.info(DEMO_READONLY_MESSAGE);
+      return;
+    }
     if (!confirm("Bu ürünü silmek istediğinizden emin misiniz?")) return;
 
     try {
