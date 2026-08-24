@@ -4,14 +4,19 @@ import { Order, Product, User } from "@/types";
 // by db.json, so the deployed site doesn't depend on a separate json-server
 // process being reachable. Relative URLs resolve fine in the browser, but
 // Node's fetch (used when these run in Server Components/Server Actions)
-// requires an absolute one — VERCEL_URL gives the deployment's own live
-// origin at request time.
-const BASE_URL =
-  typeof window !== "undefined"
-    ? "/api"
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/api`
-      : "http://localhost:3000/api";
+// requires an absolute one. VERCEL_PROJECT_PRODUCTION_URL (the stable
+// aliased domain) is used over VERCEL_URL — once a production deployment
+// is aliased, its own raw per-deployment URL 302-redirects to the alias,
+// which broke self-fetches here (fetch followed the redirect to an HTML
+// page and .json() failed parsing it). VERCEL_URL is still right for
+// preview deployments, which have no separate alias to redirect to.
+function resolveServerBaseUrl(): string {
+  const host = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  if (host) return `https://${host}/api`;
+  return "http://localhost:3000/api";
+}
+
+const BASE_URL = typeof window !== "undefined" ? "/api" : resolveServerBaseUrl();
 
 // bütün siparişleri getir
 export const getOrders = async (): Promise<Order[]> => {
