@@ -4,4 +4,4 @@
 // deployments and local `next dev` are unaffected.
 export const isDemoReadOnly = process.env.NEXT_PUBLIC_DEMO_READONLY === "true";
 
-export const DEMO_READONLY_MESSAGE = "Bu canlı demoda bu işlem devre dışı bırakıldı.";
+export const DEMO_READONLY_MESSAGE = "demoda bu işlem devre dışı bırakıldı.";

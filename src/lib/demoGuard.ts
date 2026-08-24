@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export function readOnlyResponse(): NextResponse | null {
   if (process.env.VERCEL_ENV !== "production") return null;
   return NextResponse.json(
-    { error: "Bu canlı demoda bu işlem devre dışı bırakıldı." },
+    { error: "demoda bu işlem devre dışı bırakıldı." },
     { status: 403 },
   );
 }
